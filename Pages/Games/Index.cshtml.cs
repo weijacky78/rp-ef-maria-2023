@@ -13,12 +13,12 @@ namespace rp_ef_maria.Pages.Games
     {
         private readonly StoreContext _context;
 
-        public IndexModel(StoreContext context)
+        public IndexModel(StoreContext dbcontext)
         {
-            _context = context;
+            _context = dbcontext;
         }
 
-        public IList<Game> Game { get;set; } = default!;
+        public IList<Game> Game { get; set; } = default!;
 
         public async Task OnGetAsync()
         {

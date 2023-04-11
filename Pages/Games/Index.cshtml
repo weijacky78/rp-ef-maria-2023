@@ -1,8 +1,13 @@
 @page
 @model rp_ef_maria.Pages.Games.IndexModel
-
+@inject StoreContext _context
 @{
     ViewData["Title"] = "Index";
+
+    var games = _context.Game
+    .Where(g => g.Title.Contains("cat")).ToList();
+
+    Model.Game = games;
 }
 
 <h1>Index</h1>
@@ -10,6 +15,7 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -29,26 +35,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Game) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.GameId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.GameId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.GameId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Game)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.GameId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.GameId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.GameId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

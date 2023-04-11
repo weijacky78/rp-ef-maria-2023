@@ -18,7 +18,11 @@ namespace rp_ef_maria.Pages.Games
             _context = context;
         }
 
-      public Game Game { get; set; } = default!; 
+        public Game Game { get; set; } = default!;
+
+        [FromQuery(Name = "msg")]
+
+        public string Message { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(uint? id)
         {
@@ -32,7 +36,7 @@ namespace rp_ef_maria.Pages.Games
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Game = game;
             }
