@@ -4,14 +4,17 @@
 @{
     ViewData["Title"] = "Index";
 
-    var games = _context.Game
-    .Where(g => g.Title.Contains("cat")).ToList();
 
-    Model.Game = games;
 }
 
 <h1>Index</h1>
-
+<div>
+    <h3>Filter</h3>
+    <form>
+        <p>Search Title: <input typr="text" asp-for="Query" /></p>
+        <input type="submit" value="Search" />
+    </form>
+</div>
 <p>
     <a asp-page="Create">Create New</a>
 </p>

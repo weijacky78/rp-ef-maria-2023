@@ -20,12 +20,29 @@ namespace rp_ef_maria.Pages.Games
 
         public IList<Game> Game { get; set; } = default!;
 
+        [BindProperty(SupportsGet = true)]
+        public string Query { get; set; } = default!;
         public async Task OnGetAsync()
         {
-            if (_context.Game != null)
+            IQueryable<Game> games;//story games query
+            if (Query != null)
             {
-                Game = await _context.Game.ToListAsync();
+                //if title query is not empty, search for titles that contain the query
+                games = _context.Game.Where(g => g.Title.Contains(Query));
             }
+            else
+            {
+                // otherwise, get all games
+                games = _context.Game;
+            }
+
+            //add to query (further filter) to get games released in the last 5 years
+            games = games.Where(games => games.ReleaseDate > DateTime.Now.AddYears(-5));
+
+            // do the query, store in a list (do it asynchronously, so other program segments can run)
+            Game = await games.ToListAsync();
+            // render the oage
+            Page();
         }
     }
 }
