@@ -23,6 +23,15 @@ namespace rp_ef_maria.Pages.Games
         [BindProperty(SupportsGet = true)]
         public string Query { get; set; } = default!;
 
+        [BindProperty(SupportsGet = true)]
+        public DateTime? PublishDate { get; set; } = default!;
+
+        [BindProperty(SupportsGet = true)]
+        public bool? BeforePublishDate { get; set; } = default!;
+
+        [BindProperty(SupportsGet = true)]
+        public bool DateSearchEnable { get; set; } = default!;
+
         public async Task OnGetAsync()
         {
             IQueryable<Game> games; // story games query
@@ -37,8 +46,23 @@ namespace rp_ef_maria.Pages.Games
                 games = _context.Game;
             }
 
-            // add to query (further filter) to get games released in the last 5 years
-            games = games.Where(g => g.ReleaseDate > DateTime.Now.AddYears(-5));
+            if (PublishDate != null && DateSearchEnable)
+            {
+
+                if (BeforePublishDate != null)
+                {
+                    if (BeforePublishDate.Value)
+                    {
+                        games = games.Where(g => g.ReleaseDate <= PublishDate);
+                    }
+                    else
+                    {
+                        games = games.Where(g => g.ReleaseDate > PublishDate);
+                    }
+                }
+
+            }
+
 
             // do the query, store in a list (do it asynchronously, so other program segments can run)
             Game = await games.ToListAsync();

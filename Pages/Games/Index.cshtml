@@ -11,9 +11,19 @@
 <div>
     <h3>Filter</h3>
     <form>
-        <p>Search Title: <input typr="text" asp-for="Query" /></p>
+        <p>Search Title: <input type="text" asp-for="Query" /></p>
+        <p>Search Publish date:
+            <input asp-for="PublishDate" />
+            <input asp-for="DateSearchEnable" type="checkbox" />
+            <select asp-for="BeforePublishDate">
+                <option value="true">Before</option>
+                <option value="false">After</option>
+            </select>
+        </p>
+
         <input type="submit" value="Search" />
     </form>
+
 </div>
 <p>
     <a asp-page="Create">Create New</a>
